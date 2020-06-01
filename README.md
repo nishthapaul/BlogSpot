@@ -1,5 +1,5 @@
 # BlogSpot
-A Technical Blogging Website
+## A Technical Blogging Website
 It is a fully responsive blogging website made using JAVA servlets and jsp which includes basic modules of signup and login and also allows the user to view and add posts on the trending technologies.
 A LIKE system has also been implemented which allows the allows the users to like the posts of their interest.
 
