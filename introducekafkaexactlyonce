@@ -1,0 +1,21 @@
+Exactly-once delivery
+Some applications require not just at-least-once semantics (meaning no data loss),
+but also exactly-once semantics. While Kafka does not provide full exactly-once sup‐
+port at this time, consumers have few tricks available that allow them to guarantee
+that each message in Kafka will be written to an external system exactly once (note
+that this doesn’t handle duplications that may have occurred while the data was pro‐
+duced into Kafka).
+The easiest and probably most common way to do exactly-once is by writing results
+to a system that has some support for unique keys. This includes all key-value stores,
+all relational databases, Elasticsearch, and probably many more data stores. When
+writing results to a system like a relational database or Elastic search, either the
+record itself contains a unique key (this is fairly common), or you can create a unique
+key using the topic, partition, and offset combination, which uniquely identifies a
+Kafka record. If you write the record as a value with a unique key, and later you acci‐
+dentally consume the same record again, you will just write the exact same key and
+value. The data store will override the existing one, and you will get the same result
+that you would without the accidental duplicate. This pattern is called idempotent
+writes and is very common and useful.
+Another option is available when writing to a system that has transactions. Relational
+databases are the easiest example, but HDFS has atomic renames that are often used
+for the same purpose. The idea is to write the records and their offsets in the same
